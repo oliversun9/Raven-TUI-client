@@ -1,5 +1,9 @@
 #include "app-exit-manager.h"
 
+using std::shared_ptr;
+using std::make_shared;
+using std::enable_shared_from_this;
+
 class EventRouter;
 class KeyEvent;
 class LifeCycleEvent;
@@ -18,62 +22,62 @@ private:
 public:
     virtual ~Event(){}
 
-    virtual void getRouted(EventRouter *router) = 0;
+    virtual void getRouted(shared_ptr<EventRouter> router) = 0;
 };
 
-class KeyEvent: public Event {
+class KeyEvent: public Event, public enable_shared_from_this<KeyEvent> {
 public:
     KeyEvent(char c): c(c) {}
     ~KeyEvent(){}
 
     const char c;
 
-    void getRouted(EventRouter *router);
+    void getRouted(shared_ptr<EventRouter> router);
 };
 
 
 
-class LifeCycleEvent: public Event {
+class LifeCycleEvent: public Event, public enable_shared_from_this<LifeCycleEvent> {
 public:
     LifeCycleEvent(LifeCycleMoment p): lifeCycleMoment(p) {}
     ~LifeCycleEvent(){}
 
     const LifeCycleMoment lifeCycleMoment;
 
-    void getRouted(EventRouter *router);
+    void getRouted(shared_ptr<EventRouter> router);
 };
 
 
-class EventRouter {
+class EventRouter: public enable_shared_from_this<EventRouter> {
     public:
     EventRouter(){}
     ~EventRouter(){}
 
-    void route(Event *e);
+    void route(shared_ptr<Event> e);
 
-    void route(KeyEvent *ke);
+    void route(shared_ptr<KeyEvent> ke);
 
-    void route(LifeCycleEvent *le);
+    void route(shared_ptr<LifeCycleEvent> le);
 };
 
 
-void KeyEvent::getRouted(EventRouter *router) {
-    router->route(this);
+void KeyEvent::getRouted(shared_ptr<EventRouter> router) {
+    router->route(shared_from_this());
 }
 
-void LifeCycleEvent::getRouted(EventRouter *router) {
-    router->route(this);
+void LifeCycleEvent::getRouted(shared_ptr<EventRouter> router) {
+    router->route(shared_from_this());
 }
 
-void EventRouter::route(Event *e) {
-    e->getRouted(this);
+void EventRouter::route(shared_ptr<Event> e) {
+    e->getRouted(shared_from_this());
 }
 
-void EventRouter::route(KeyEvent *ke) {
+void EventRouter::route(shared_ptr<KeyEvent> ke) {
     std::cout << "routing key event " << ke->c << std::endl;
 }
 
-void EventRouter::route(LifeCycleEvent *le) {
+void EventRouter::route(shared_ptr<LifeCycleEvent> le) {
     switch (le->lifeCycleMoment)
     {
     case AppDidStart:

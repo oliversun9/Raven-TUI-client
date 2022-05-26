@@ -1,15 +1,15 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include <memory>
 #include "event.h"
 #include "app-exit-manager.h"
 
+using std::shared_ptr;
+using std::make_shared;
 
 // to be removed
 #include <iostream>
-
-
-
 
 
 // ExecutionLoop
@@ -24,9 +24,9 @@ private:
 
     ~ExecutionLoop() {}
 
-    std::queue<Event*> eventQueue;
+    std::queue<shared_ptr<Event>> eventQueue;
 
-    Event *popEvent() {
+    shared_ptr<Event> popEvent() {
 
         // acquire
         std::unique_lock<std::mutex> lck(queueMutex);
@@ -38,7 +38,7 @@ private:
         }
 
         // pop the event
-        Event *e = eventQueue.front();
+        shared_ptr<Event> e = eventQueue.front();
         eventQueue.pop();
 
         // release the lock (automatic, released on lck's destruction)
@@ -46,24 +46,24 @@ private:
     }
 
     // returns true if app exit is the event
-    void handleEvent(Event *e) {
-        EventRouter router;
-        router.route(e);
+    void handleEvent(shared_ptr<Event> e) {
+        shared_ptr<EventRouter> router = make_shared<EventRouter>();
+        router->route(e);
     }
 
     void startLoop() {
         while(!AppExitManager::shouldAppExit()) {
-            Event *curEvent = popEvent();
+            shared_ptr<Event> curEvent = popEvent();
             handleEvent(curEvent);
         }
-        Event *exitEvent = new LifeCycleEvent(AppWillExit);
+        shared_ptr<Event> exitEvent = make_shared<LifeCycleEvent>(AppWillExit);
         handleEvent(exitEvent);
     }
 
     void addTestKeyEvents() {
         ExecutionLoop& exe = ExecutionLoop::getInstance();
         for(char c = 'a'; c <= 'z'; c++) {
-            Event* e = new KeyEvent(c);
+           shared_ptr<Event>  e =  make_shared<KeyEvent>(c);
             exe.pushEvent(e);
         }
     }
@@ -86,14 +86,14 @@ public:
         return instance;
     }
 
-    void pushEvent(Event *e) {
+    void pushEvent(shared_ptr<Event> e) {
         std::unique_lock<std::mutex> lck(queueMutex);
         eventQueue.push(e);
         queueNonEmptyCondition.notify_one();
     }
 
     void pushLifeCycleEvent(LifeCycleMoment l) {
-        LifeCycleEvent* e = new LifeCycleEvent(l);
+        shared_ptr<LifeCycleEvent> e = make_shared<LifeCycleEvent>(l);
         pushEvent(e);
     }
 
