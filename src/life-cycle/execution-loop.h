@@ -2,6 +2,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <memory>
+
 #include "event.h"
 #include "app-exit-manager.h"
 
