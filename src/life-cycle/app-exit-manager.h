@@ -1,5 +1,5 @@
-#ifndef APP_EXIT_MANAGER
-#define APP_EXIT_MANAGER
+#ifndef LIFE_CYCLE_APP_EXIT_MANAGER_H_
+#define LIFE_CYCLE_APP_EXIT_MANAGER_H_
 
 #include <mutex>
 
@@ -24,4 +24,4 @@ private:
 
 bool AppExitManager::_shouldExit = false;
 
-#endif
+#endif /* LIFE_CYCLE_APP_EXIT_MANAGER_H_ */

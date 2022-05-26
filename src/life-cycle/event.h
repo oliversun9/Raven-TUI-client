@@ -1,3 +1,6 @@
+#ifndef LIFE_CYCLE_EVENT_H_
+#define LIFE_CYCLE_EVENT_H_
+
 #include "app-exit-manager.h"
 
 using std::shared_ptr;
@@ -96,3 +99,5 @@ void EventRouter::route(shared_ptr<LifeCycleEvent> le) {
         break;
     }
 }
+
+#endif /* LIFE_CYCLE_EVENT_H_ */

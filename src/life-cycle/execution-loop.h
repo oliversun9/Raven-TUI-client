@@ -1,3 +1,6 @@
+#ifndef LIFE_CYCLE_EXECUTION_LOOP_H_
+#define LIFE_CYCLE_EXECUTION_LOOP_H_    
+
 #include <queue>
 #include <mutex>
 #include <condition_variable>
@@ -110,3 +113,6 @@ public:
         eventExeThread.join();
     }
 };
+
+
+#endif /* LIFE_CYCLE_EXECUTION_LOOP_H_ */
