@@ -5,16 +5,21 @@
 #include <mutex>
 #include <condition_variable>
 #include <memory>
+#include <vector>
 
 #include "life-cycle-moment.h"
 
 using std::shared_ptr;
+using std::weak_ptr;
 using std::make_shared;
+using std::vector;
 
 // to be removed
 #include <iostream>
 
 class Event;
+
+class EventEmitter;
 
 class ExecutionLoop 
 {
@@ -25,6 +30,8 @@ private:
     ~ExecutionLoop() {}
 
     std::queue<shared_ptr<Event>> eventQueue;
+
+    vector<std::weak_ptr<EventEmitter>> eventEmitters;
 
     shared_ptr<Event> popEvent();
 
@@ -47,6 +54,8 @@ public:
     void pushEvent(shared_ptr<Event> e);
 
     void pushLifeCycleEvent(LifeCycleMoment l);
+
+    void addEmitter(weak_ptr<EventEmitter> ee);
 
     void start();
 };

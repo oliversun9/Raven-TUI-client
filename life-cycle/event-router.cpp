@@ -14,18 +14,18 @@ void EventRouter::route(shared_ptr<Event> e) {
 }
 
 void EventRouter::route(shared_ptr<KeyEvent> ke) {
-    std::cout << "routing key event " << ke->c << std::endl;
+    // std::cout << "routing key event " << ke->c << std::endl;
 }
 
 void EventRouter::route(shared_ptr<LifeCycleEvent> le) {
     switch (le->lifeCycleMoment)
     {
     case AppDidStart:
-        std::cout << "app did start" << std::endl;
+        // std::cout << "app did start" << std::endl;
         break;
 
     case AppWillExit:
-        std::cout << "app will exit" << std::endl;
+        // std::cout << "app will exit" << std::endl;
         break;
 
     case AppExit:

@@ -4,6 +4,7 @@
 #include "life-cycle-moment.h"
 #include "life-cycle-event.h"
 #include "key-event.h"
+#include "event-emitter.h"
 
 #include <thread>
 
@@ -79,14 +80,38 @@ void ExecutionLoop::pushLifeCycleEvent(LifeCycleMoment l) {
     pushEvent(e);
 }
 
+void ExecutionLoop::addEmitter(weak_ptr<EventEmitter> ee) {
+    eventEmitters.push_back(ee);
+}
+
 void ExecutionLoop::start() {
     std::thread eventExeThread(&ExecutionLoop::startLoop, this);
 
     pushLifeCycleEvent(AppDidStart);
 
-    addTestKeyEventsInThreads();
+    // addTestKeyEventsInThreads();
 
-    pushLifeCycleEvent(AppExit);
+    vector<std::jthread> threads;
+
+    for(auto ee : eventEmitters) {
+        threads.push_back(
+            std::jthread([this, ee] (std::stop_token stoken) {
+                while(!stoken.stop_requested()) {
+                    if(shared_ptr<EventEmitter> esp = ee.lock()) {
+                        auto e = esp->emit();
+                        if (e != nullptr) {
+                            this->pushEvent(e);
+                        }
+                    }
+                }
+            })
+        );
+    }
     
     eventExeThread.join();
+
+
+    for(auto &t : threads) {
+        t.request_stop();
+    }
 }
