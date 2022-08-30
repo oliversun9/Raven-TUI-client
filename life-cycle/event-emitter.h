@@ -10,8 +10,6 @@ class Event;
 class EventEmitter
 {
 public:
-    virtual ~EventEmitter(){}
-
     // must be non-blocking
     virtual shared_ptr<Event> emit() = 0;
 };

@@ -9,10 +9,7 @@ class EventRouter;
 
 class Event
 {
-private:
 public:
-    virtual ~Event(){}
-
     virtual void getRouted(shared_ptr<EventRouter> router) = 0;
 };
 
