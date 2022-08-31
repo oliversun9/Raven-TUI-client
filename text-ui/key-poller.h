@@ -5,19 +5,15 @@
 #include "../life-cycle/event-emitter.h"
 #include "../life-cycle/event-emitter.h"
 
+class TextInterface;
+
 using std::enable_shared_from_this;
 class KeyPoller: public EventEmitter, public enable_shared_from_this<KeyPoller> {
 private:
-    /* data */
-    bool isScrSetup;
-
-    
+    TextInterface& textInterface;
 public:
-    KeyPoller(/* args */);
-    ~KeyPoller();
-
-    // call this plz (this will be removed, and init will be done in the main TUI thing)
-    void setup();
+    KeyPoller(TextInterface& t): textInterface(t) {}
+    ~KeyPoller(){}
 
     // non-blocking
     shared_ptr<Event> emit();
