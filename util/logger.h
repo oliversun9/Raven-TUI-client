@@ -1,3 +1,6 @@
+#ifndef UTIL__LOGGER
+#define UTIL__LOGGER
+
 #include <string>
 #include <fstream>
 #include <memory>
@@ -15,3 +18,5 @@ public:
     ~Logger();
     void log(string message);
 };
+
+#endif // UTIL__LOGGER
