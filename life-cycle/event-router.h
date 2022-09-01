@@ -9,10 +9,13 @@ using std::shared_ptr;
 class Event;
 class KeyEvent;
 class LifeCycleEvent;
+class Logger;
 
 class EventRouter: public enable_shared_from_this<EventRouter> {
-    public:
-    EventRouter(){}
+private:
+    shared_ptr<Logger> logger;
+public:
+    EventRouter();
     ~EventRouter(){}
 
     void route(shared_ptr<Event> e);

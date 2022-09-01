@@ -18,20 +18,23 @@ using std::vector;
 #include <iostream>
 
 class Event;
-
 class EventEmitter;
+class Logger;
+class EventRouter;
 
 class ExecutionLoop 
 {
 private:
     /* data */
-    ExecutionLoop() {}
+    ExecutionLoop();
 
     ~ExecutionLoop() {}
 
     std::queue<shared_ptr<Event>> eventQueue;
 
     vector<std::weak_ptr<EventEmitter>> eventEmitters;
+
+    shared_ptr<EventRouter> router;
 
     shared_ptr<Event> popEvent();
 
