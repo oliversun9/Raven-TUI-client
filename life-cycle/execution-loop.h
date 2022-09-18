@@ -24,6 +24,21 @@ class EventRouter;
 
 class ExecutionLoop 
 {
+public:
+    ExecutionLoop(ExecutionLoop const&) = delete;
+
+    void operator=(ExecutionLoop const&) = delete;
+
+    static ExecutionLoop& getInstance();
+
+    void pushEvent(shared_ptr<Event> e);
+
+    void pushLifeCycleEvent(LifeCycleMoment l);
+
+    void addEmitter(weak_ptr<EventEmitter> ee);
+
+    void start();
+
 private:
     /* data */
     ExecutionLoop();
@@ -46,21 +61,6 @@ private:
     void addTestKeyEvents();
 
     void addTestKeyEventsInThreads();
-
-public:
-    ExecutionLoop(ExecutionLoop const&) = delete;
-
-    void operator=(ExecutionLoop const&) = delete;
-
-    static ExecutionLoop& getInstance();
-
-    void pushEvent(shared_ptr<Event> e);
-
-    void pushLifeCycleEvent(LifeCycleMoment l);
-
-    void addEmitter(weak_ptr<EventEmitter> ee);
-
-    void start();
 };
 
 

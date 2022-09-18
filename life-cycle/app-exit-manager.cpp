@@ -1,16 +1,17 @@
 #include "app-exit-manager.h"
 
+using std::mutex;
+using std::unique_lock;
 
-
-std::mutex appExitMutex;
+mutex appExitMutex;
 
 void AppExitManager::requestExit() {
-    std::unique_lock<std::mutex> lck(appExitMutex);
+    unique_lock<mutex> lck(appExitMutex);
     _shouldExit = true;
 }
 
 bool AppExitManager::shouldAppExit() {
-    std::unique_lock<std::mutex> lck(appExitMutex);
+    unique_lock<mutex> lck(appExitMutex);
     return _shouldExit;        
 }
 

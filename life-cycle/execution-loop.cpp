@@ -113,7 +113,6 @@ void ExecutionLoop::start() {
     
     eventExeThread.join();
 
-
     for(auto &t : threads) {
         t.request_stop();
     }
