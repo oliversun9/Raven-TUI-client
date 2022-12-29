@@ -15,7 +15,7 @@ public:
 
     const LifeCycleMoment lifeCycleMoment;
 
-    void getRouted(shared_ptr<EventRouter> router);
+    void getHandled(shared_ptr<EventRouter> router);
 };
 
 #endif /* LIFE_CYCLE_LIFE_CYCLE_EVENT_H_ */

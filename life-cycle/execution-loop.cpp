@@ -15,7 +15,7 @@ std::mutex queueMutex;
 std::condition_variable queueNonEmptyCondition;
 
 ExecutionLoop::ExecutionLoop() {
-    router = make_shared<EventRouter>();
+    eventHandler = make_shared<EventRouter>();
 }
 
 shared_ptr<Event> ExecutionLoop::popEvent() {
@@ -39,7 +39,7 @@ shared_ptr<Event> ExecutionLoop::popEvent() {
 
 // returns true if app exit is the event
 void ExecutionLoop::handleEvent(shared_ptr<Event> e) {
-    router->route(e);
+    eventHandler->handle(e);
 }
 
 void ExecutionLoop::startLoop() {

@@ -19,8 +19,8 @@ EventRouter::EventRouter() {
     logger->log("Logger activated");
 }
 
-void EventRouter::route(shared_ptr<Event> e) {
-    e->getRouted(shared_from_this());
+void EventRouter::handle(shared_ptr<Event> e) {
+    e->getHandled(shared_from_this());
 }
 
 void EventRouter::route(shared_ptr<KeyEvent> ke) {

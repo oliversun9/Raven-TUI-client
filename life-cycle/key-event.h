@@ -12,7 +12,7 @@ public:
 
     const char c;
 
-    void getRouted(shared_ptr<EventRouter> router);
+    void getHandled(shared_ptr<EventRouter> router);
 };
 
 #endif /* LIFE_CYCLE_KEY_EVENT_H */

@@ -20,7 +20,7 @@ using std::vector;
 class Event;
 class EventEmitter;
 class Logger;
-class EventRouter;
+class EventHandler;
 
 class ExecutionLoop 
 {
@@ -49,7 +49,7 @@ private:
 
     vector<std::weak_ptr<EventEmitter>> eventEmitters;
 
-    shared_ptr<EventRouter> router;
+    shared_ptr<EventHandler> eventHandler;
 
     shared_ptr<Event> popEvent();
 

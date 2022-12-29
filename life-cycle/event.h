@@ -10,7 +10,7 @@ class EventRouter;
 class Event
 {
 public:
-    virtual void getRouted(shared_ptr<EventRouter> router) = 0;
+    virtual void getHandled(shared_ptr<EventRouter> router) = 0;
 };
 
 #endif /* LIFE_CYCLE_EVENT_H_ */

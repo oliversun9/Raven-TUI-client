@@ -3,6 +3,6 @@
 
 using std::shared_ptr;
 
-void LifeCycleEvent::getRouted(shared_ptr<EventRouter> router) {
+void LifeCycleEvent::getHandled(shared_ptr<EventRouter> router) {
     router->route(shared_from_this());
 }
